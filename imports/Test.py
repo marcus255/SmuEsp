@@ -1,4 +1,4 @@
-import colorama, time, re
+import time, re
 from imports.Colors import bc
 from imports.Window import Window
 from imports.TestSet import TestSet
@@ -23,7 +23,6 @@ class Test:
 	def __init__(self, test_filename, width, encoding = None, max = None):
 		if max is not None: self.max_rows = max
 		self.term_width = width
-		colorama.init()
 		self.w = Window([''] * 7, self.term_width - 1)
 		self.w.updateAndPrint(4, 'SMU ESPAÑOL 1.0.1', centered = True)
 		self.w.inputText()
