@@ -12,6 +12,7 @@ can;poder;0;0.0
 cancel;cancelar;0;0.0
 change;cambiar;0;0.0
 clean;limpiar;0;0.0
+close;cerrar;0;0.0
 complain;quejarse;0;0.0
 cook;cocinar;0;0.0
 count;contar;0;0.0
@@ -34,3 +35,65 @@ give;dar;0;0.0
 go;ir;0;0.0
 have;tener;0;0.0
 hear;oir;0;0.0
+help;ayudar;0;0.0
+hurt;herir;0;0.0
+know;saber;0;0.0
+learn;aprender;0;0.0
+leave;salir;0;0.0
+listen;escuchar;0;0.0
+live;vivir;0;0.0
+look;mirar;0;0.0
+lose;perder;0;0.0
+love;amar;0;0.0
+make;hacer;0;0.0
+need;necesitar;0;0.0
+open;abrir;0;0.0
+organize;organizar;0;0.0
+pay;pagar;0;0.0
+play;jugar;0;0.0
+put;poner;0;0.0
+rain;llover;0;0.0
+raise;levantar;0;0.0
+read;leer;0;0.0
+reply;responder;0;0.0
+run;correr;0;0.0
+say;decir;0;0.0
+see;ver;0;0.0
+sell;vender;0;0.0
+send;enviar;0;0.0
+sign;firmar;0;0.0
+sing;cantar;0;0.0
+sit;sentarse;0;0.0
+sleep;dormir;0;0.0
+smoke;fumar;0;0.0
+speak;hablar;0;0.0
+spell;deletrear;0;0.0
+spend;gastar;0;0.0
+stand up;penerse de pie;0;0.0
+start/begin;comenzar;0;0.0
+study;estudiar;0;0.0
+succeed;tener ‚xito;0;0.0
+swim;nadar;0;0.0
+take;tomar;0;0.0
+talk;hablar;0;0.0
+teach;ense¤ar;0;0.0
+tell;decir;0;0.0
+think;pensar;0;0.0
+touch;tocar;0;0.0
+translate;traducir;0;0.0
+travel;viajar;0;0.0
+try;intentar;0;0.0
+turn off;apagar;0;0.0
+turn on;encender;0;0.0
+type;teclear;0;0.0
+understand;entender;0;0.0
+use;usar;0;0.0
+wait;esperar;0;0.0
+wake up;despertar;0;0.0
+walk;caminar;0;0.0
+want;querer;0;0.0
+watch;mirar;0;0.0
+win;ganar;0;0.0
+work;trabajar;0;0.0
+worry;preocuparse;0;0.0
+write;escribir;0;0.0
