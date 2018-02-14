@@ -1,7 +1,10 @@
 import os, signal, sys
 import imports.other.terminalsize as terminalsize
+import imports.other.getch as getch
 from imports.Test import Test
-
+from imports.TestSet import TestSet
+from imports.Window import Window
+from imports.Colors import bc
 
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -14,28 +17,36 @@ def main():
     signal.signal(signal.SIGINT, handler)
 
     W, H = terminalsize.get_terminal_size()
-    file = 'datasets/verbs_100.csv'
+    file = 'datasets/verbs_2.csv'
     encoding = '437'
     clear()
-    test = Test(file, W, encoding)
-    test.doTest()
-
-
-# Adding new entries to dataset
-# char = ''
-# while (char != 'q'):
-#    test.testset.addRowToSet()
-#    char = input()
+    
+    w = Window([''] * 7, W - 1)
+    
+    action = 'm'
+    while True:
+        if action == 't':
+            w.flushLines()
+            test = Test(file, W, encoding, window=w)
+            test.doTest()
+            action = 'm'
+        elif action == 'q':
+            break;
+        elif action == 'e':
+            w.flushLines()
+            w.printWindow()
+            w.setCursor(3)
+            testset = TestSet(file, encoding)
+            testset.addRowToSet()
+            w.cursor = 5
+            w.updateAndPrint(4, testset.sortAndSave())
+            w.updateAndPrint(7, 'Enter - next   q - quit')
+            next_row = getch.getch()
+            action = 'm' if next_row is 'q' else 'e'
+        else:
+            w.updateAndPrint(4, 'SMUESP 1.0.1')
+            w.updateAndPrint(7, 't - training   e - edit database   q - quit')
+            action = getch.getch()
 
 if __name__ == "__main__":
     main()
-
-    # TBD:
-    # comparison insensitive to accents
-    # deriving classes from class Test
-    # user will be able to define column mapping for test
-    # class Window, testsets preview in this class
-    # handle not allowed char exception on input
-    # saving row immediately when user defines it
-    # return to failed question when set finishes, as in duolingo
-    # decrementing rpt_count along with forget curve, reset rpt_count

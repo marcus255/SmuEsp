@@ -49,7 +49,7 @@ class TestSet:
             csv_out = csv.writer(out, delimiter=';')
             for row in self.data:
                 csv_out.writerow(row)
-        return 'Your progress has been saved in ' + filename
+        return filename + ' has been updated'
 
     def addRowToSet(self):
         row = [0] * self.cols

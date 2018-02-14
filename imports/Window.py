@@ -24,14 +24,21 @@ class Window:
             text = '  ' + ' ' * int((self.width - len(text)) / 2 - 2) + text
         self.lines[num] = text
 
+    def flushLines(self):
+        for i in range(1, self.size - 1):
+            self.lines[i] = ''
+ 
     def printWindow(self):
-        print(bc.ESC + str(self.cursor + 1) + bc.UPBYN)
-        for i in range(0, self.size):
-            print(bc.CLEAR)
+        self.clearConsole()
         print(bc.ESC + str(self.size + 1) + bc.UPBYN)
         for i in range(0, self.size):
             print(self.lines[i])
         self.cursor = self.size
+
+    def clearConsole(self):
+        print(bc.ESC + str(self.cursor + 1) + bc.UPBYN)
+        for i in range(0, self.size):
+            print(bc.CLEAR)
 
     def updateAndPrint(self, num, text, centered=True):
         self.updateLine(num, text, centered)

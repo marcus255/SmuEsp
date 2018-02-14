@@ -4,6 +4,8 @@ import time, re
 from imports.Colors import bc
 from imports.Window import Window
 from imports.TestSet import TestSet
+import imports.other.getch as getch
+
 
 # CSV file header indices
 QUERY    = 0
@@ -22,14 +24,14 @@ class Test:
     failed = 0      # failed records
     max_rows = 20   # max number of records for single training
 
-    def __init__(self, test_filename, width, encoding=None, max=None):
+    def __init__(self, test_filename, width, encoding=None, max=None, window=None):
         if max is not None:
             self.max_rows = max
         self.term_width = width
-        self.w = Window([''] * 7, self.term_width - 1)
-        self.w.updateAndPrint(4, 'SMUESP 1.0.1', centered=True)
-        self.w.inputText()
-        self.w.updateAndPrint(4, '')
+        if window == None:
+            self.w = Window([''] * 7, self.term_width - 1)
+        else:
+            self.w = window
         self.filename = test_filename
         self.testset = TestSet(self.filename, encoding)
         if self.testset.rows < self.max_rows: self.max_rows = self.testset.rows
@@ -41,7 +43,7 @@ class Test:
         else:
             self.w.updateAndPrint(4, 'Starting with ' + str(self.max_rows) + ' of ' + str(
                 self.testset.rows) + ' records from ' + self.filename)
-        self.w.inputText()
+        getch.getch()
         self.w.updateLine(4, '')
         self.w.updateAndPrint(6, self.getProgressBar() + bc.ENDC + ' ' + self.getProgress())
         for row, i in zip(self.testset.data, range(0, self.max_rows)):
@@ -49,7 +51,7 @@ class Test:
         end_str = 'Your score is {}/{} '.format(self.passed, self.max_rows) + self.getScore()
         self.w.updateLine(4, end_str, centered=True)
         self.w.updateAndPrint(6, '')
-        self.w.inputText()
+        getch.getch()
         self.w.updateAndPrint(4, self.testset.sortAndSave())
 
     def askRow(self, row):
@@ -63,7 +65,7 @@ class Test:
                                   bc.FGBRED + 'Wrong!' + bc.ENDC + ' Correct answer is: ' + bc.FGBCYAN + expected + bc.ENDC)
             if int(row[RTP_CNT]) > 0:
                 row[RTP_CNT] = str(int(row[RTP_CNT]) - 1)
-            self.w.inputText()
+            getch.getch()
             self.w.updateAndPrint(4, '')
             answer = self.w.inputText('  ' + row[QUERY] + ': ', 2, no_offset=True)
 
@@ -75,7 +77,7 @@ class Test:
         self.completed += 1
         self.failed = self.completed - self.passed
         self.w.updateAndPrint(6, self.getProgressBar() + bc.ENDC + ' ' + self.getProgress())
-        self.w.inputText()
+        getch.getch()
         self.w.updateAndPrint(4, '')
         return row
 
