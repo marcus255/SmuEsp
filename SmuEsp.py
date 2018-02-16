@@ -1,6 +1,7 @@
-import os, signal, sys
+import os, signal, sys, csv
 import imports.other.terminalsize as terminalsize
 import imports.other.getch as getch
+from pathlib import Path
 from imports.Test import Test
 from imports.TestSet import TestSet
 from imports.Window import Window
@@ -25,15 +26,15 @@ def main():
     
     action = 'm'
     while True:
+        w.flushLines()
         if action == 't':
-            w.flushLines()
             test = Test(file, W, encoding, window=w)
             test.doTest()
+            getch.getch()
             action = 'm'
         elif action == 'q':
             break;
         elif action == 'e':
-            w.flushLines()
             w.printWindow()
             w.setCursor(3)
             testset = TestSet(file, encoding)
@@ -43,9 +44,30 @@ def main():
             w.updateAndPrint(7, 'Enter - next   q - quit')
             next_row = getch.getch()
             action = 'm' if next_row is 'q' else 'e'
+        elif action == 's':
+            w.updateAndPrint(3, '  Enter database filename', centered=None)
+            name = w.inputText(text = '  ', line=4)
+            file = 'datasets/' + name
+            if Path(file).is_file():
+                w.updateAndPrint(3, 'File: ' + name + ' set as active')
+            else:
+                w.updateAndPrint(3, 'File does not exist, create an empty file?')
+                w.updateAndPrint(7, 'y - yes   n - no   q - quit')
+                yes_no = getch.getch()
+                if yes_no == 'y':
+                    with open(file, 'w', newline='', encoding=encoding) as out:
+                        csv_out = csv.writer(out, delimiter=';')
+                        csv_out.writerow(['query', 'response', 'rpt_count', 'timestamp'])
+                        w.updateAndPrint(3, 'File ' + name + ' created and set as active')
+                        getch.getch()
+                elif yes_no == 'q':
+                    file = ''
+                else:
+                    action = 's'
+            action = 'm'        
         else:
             w.updateAndPrint(4, 'SMUESP 1.0.1')
-            w.updateAndPrint(7, 't - training   e - edit database   q - quit')
+            w.updateAndPrint(7, 't - training   e - edit database   s - select file   q - quit')
             action = getch.getch()
 
 if __name__ == "__main__":

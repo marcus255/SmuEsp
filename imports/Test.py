@@ -37,17 +37,25 @@ class Test:
         if self.testset.rows < self.max_rows: self.max_rows = self.testset.rows
 
     def doTest(self):
+        action = ''
         if self.max_rows == 0:
             self.w.updateAndPrint(4, 'No records found for practising')
             return
         else:
-            self.w.updateAndPrint(4, 'Starting with ' + str(self.max_rows) + ' of ' + str(
-                self.testset.rows) + ' records from ' + self.filename)
+            self.w.updateAndPrint(4, 'Starting with ' + str(self.max_rows) + ' of ' +
+                str(self.testset.rows) + ' records from ' + self.filename)
         getch.getch()
         self.w.updateLine(4, '')
-        self.w.updateAndPrint(6, self.getProgressBar() + bc.ENDC + ' ' + self.getProgress())
+        self.w.updateLine(6, self.getProgressBar() + bc.ENDC + ' ' + self.getProgress())
+        self.w.updateAndPrint(7, 'q - quit and save, a - abort, s - skip')
         for row, i in zip(self.testset.data, range(0, self.max_rows)):
-            row = self.askRow(row)
+            row, action = self.askRow(row)
+            if action == 'a':
+                self.w.clearConsole()
+                self.w.updateAndPrint(4, 'Training aborted')
+                return
+            elif action == 'q':
+                break
         end_str = 'Your score is {}/{} '.format(self.passed, self.max_rows) + self.getScore()
         self.w.updateLine(4, end_str, centered=True)
         self.w.updateAndPrint(6, '')
@@ -58,14 +66,16 @@ class Test:
         answer = self.w.inputText('  ' + row[QUERY] + ': ', 2, no_offset=True)
         expected = row[RESPONSE]
         wrong_ans = False
+        action = ''
         regex = re.compile('[ин?!]')
         while regex.sub('', answer.lower()) != regex.sub('', expected.lower()):
             wrong_ans = True
-            self.w.updateAndPrint(4,
-                                  bc.FGBRED + 'Wrong!' + bc.ENDC + ' Correct answer is: ' + bc.FGBCYAN + expected + bc.ENDC)
+            self.w.updateAndPrint(4, bc.FGBRED + 'Wrong!' + bc.ENDC + ' Correct answer is: ' + bc.FGBCYAN + expected + bc.ENDC)
             if int(row[RTP_CNT]) > 0:
                 row[RTP_CNT] = str(int(row[RTP_CNT]) - 1)
-            getch.getch()
+            action = getch.getch()
+            if action in 'qas': # q - quit and save, a - abort, s - skip
+                return row, action
             self.w.updateAndPrint(4, '')
             answer = self.w.inputText('  ' + row[QUERY] + ': ', 2, no_offset=True)
 
@@ -77,9 +87,9 @@ class Test:
         self.completed += 1
         self.failed = self.completed - self.passed
         self.w.updateAndPrint(6, self.getProgressBar() + bc.ENDC + ' ' + self.getProgress())
-        getch.getch()
+        action = getch.getch()
         self.w.updateAndPrint(4, '')
-        return row
+        return row, action
 
     def getProgress(self):
         return '{:0.0f}%'.format(100 * self.completed / self.max_rows)

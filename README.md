@@ -5,7 +5,9 @@
 #### Tested under Python 3.5.2
 
 ### TBD
+handle file not found exceptions
 handle string longer than console width (trim and add '...')
+handler that redraw window when console width changes
 selecting modes on program start: training, data input, data browsing
 mode for data browsing
 add key actions to training mode (skip, quit, save, reset)
