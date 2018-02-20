@@ -14,9 +14,12 @@ class TestSet:
     def __init__(self, filename, enc):
         if enc is not None: self.encoding = enc
         self.fname = filename
-        with open(filename, 'r', encoding=self.encoding) as f:
-            reader = csv.reader(f, delimiter=';')
-            self.data = list(reader)
+        try:
+            with open(filename, 'r', encoding=self.encoding) as f:
+                reader = csv.reader(f, delimiter=';')
+                self.data = list(reader)
+        except OSError as e:
+            return None
         self.header = self.data[0]
         self.cols = len(self.header)
         del self.data[0]

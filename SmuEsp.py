@@ -18,7 +18,7 @@ def main():
     signal.signal(signal.SIGINT, handler)
 
     W, H = terminalsize.get_terminal_size()
-    file = 'datasets/verbs_2.csv'
+    file = 'datasets/verbs_100.csv'
     encoding = '437'
     clear()
     
